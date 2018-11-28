@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+
+    android:layout_height="match_parent"
+    tools:context=".ListActivity">
+    <RelativeLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:background="@color/blue"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <ImageButton
+            
+            android:id="@+id/iv_return"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/ic_return"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+        <TextView
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:id="@+id/tv_title"
+            android:layout_centerInParent="true"
+            android:text="title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:layout_marginRight="10dp"
+           android:layout_alignParentRight="true"
+            android:id="@+id/iv_add"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/ic_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageButton
+            android:layout_marginRight="10dp"
+           android:layout_toLeftOf="@id/iv_add"
+            android:id="@+id/iv_sort"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/ic_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <EditText
+        android:drawableLeft="@mipmap/ic_serch"
+        android:hint="搜索"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_task"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

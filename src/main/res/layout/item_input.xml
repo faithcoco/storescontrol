@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" >
+
+<LinearLayout
+    android:id="@+id/l_input"
+    android:orientation="horizontal"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+<TextView
+    android:textColor="@android:color/white"
+    android:gravity="center"
+    android:background="@mipmap/ic_round"
+    android:id="@+id/tv_number"
+    android:text="1"
+    android:src="@mipmap/ic_picture"
+    android:layout_width="20dp"
+    android:layout_height="20dp" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_ccode"
+                android:textColor="@android:color/black"
+                android:text="单号"
+
+                android:layout_width="150dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_line"
+                android:textColor="@android:color/black"
+                android:text="行号"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_cposcode"
+                android:textColor="@android:color/black"
+                android:text="货位"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_material"
+                android:textColor="@android:color/black"
+                android:text="料号"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_batch"
+                android:textColor="@android:color/black"
+                android:text="批号"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_count"
+                android:textColor="@android:color/black"
+                android:text="数量"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</LinearLayout>
+</layout>
