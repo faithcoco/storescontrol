@@ -40,6 +40,8 @@ public class IndexActivity extends BaseActivity {
         }
         binding.setUser(userinfoBean);
 
+        binding.tvUsername.setText(userinfoBean.getUsername()+"("+userinfoBean.getAcccode()+")");
+
         titleTv=binding.getRoot().findViewById(R.id.tv_title);
          titleTv.setText("首页");
 

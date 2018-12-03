@@ -154,6 +154,8 @@ public class PutListActivity extends BaseActivity {
 
 
 
+                    }else if(response.code()==500){
+                        Toast.makeText(PutListActivity.this,"数据错误，请检查",Toast.LENGTH_LONG).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

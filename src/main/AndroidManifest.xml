@@ -28,8 +28,6 @@
         </activity>
         <activity android:name=".PortActivity" />
         <activity android:name=".IndexActivity" />
-        <activity android:name=".ListActivity" />
-        <activity android:name=".DetailActivity" />
         <activity android:name=".ScanActivity" />
         <activity android:name=".PutDetailActivtity" />
         <activity android:name=".PutListActivity"></activity>

@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,8 +54,8 @@ public class PutDetailActivtity extends  BaseActivity {
     int tag=-1;
     ActivityPutdetailBinding binding;
     Gson gson=new Gson();
-    private  String old;
-
+    private  String old="1";
+    private  String cwhcode,cposition;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +113,33 @@ public class PutDetailActivtity extends  BaseActivity {
             }
         });
 
+        binding.etCwhcode.setOnKeyListener(onKeyListener);
+        binding.etBatch.setOnKeyListener(onKeyListener);
+
+
     }
+
+    View.OnKeyListener onKeyListener=new View.OnKeyListener() {
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+            if(keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
+                switch (v.getId()) {
+                    case R.id.et_cwhcode:
+                        getCwhcode();
+                        break;
+                    case R.id.et_batch:
+                        getData(binding.etBatch.getText().toString());
+
+                        break;
+
+                }
+            }
+
+            return false;
+        }
+    };
+
+
     View.OnClickListener onClickListener=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -151,10 +180,14 @@ public class PutDetailActivtity extends  BaseActivity {
                              changeIquantity(1);
                          }
                          if(arrivalHeadBean!=null) {
-                             getCwhcode();
-
-
+                             setList();
                          }
+
+                         //clear view data
+                         arrivalHeadBean=null;
+                         binding.setBean(arrivalHeadBean);
+                         binding.etBatch.setText("");
+                         binding.tvNumber.setText("");
                          break;
                  }
         }
@@ -196,9 +229,9 @@ public class PutDetailActivtity extends  BaseActivity {
                 try {
                     if(response.code()==200) {
                        JSONObject object=new JSONObject(response.body().string());
-                       arrivalHeadBean.setCwhcode(object.getString("cwhcode"));
-                       arrivalHeadBean.setCposition(binding.etCwhcode.getText().toString());
-                       setList();
+                       cwhcode=object.getString("cwhcode");
+                       cposition=binding.etCwhcode.getText().toString();
+                      binding.etCwhcode.setText(binding.etCwhcode.getText().toString()+"/仓库"+object.getString("cwhcode"));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -214,6 +247,9 @@ public class PutDetailActivtity extends  BaseActivity {
      * 制造入库列表
      */
     private void setList() {
+
+
+
         ArrayList<ArrivalHeadBean> arrivalHeadBeans = new ArrayList<>();
         SharedPreferences sharedPreferences = getSharedPreferences("sp", Context.MODE_PRIVATE);
         String data = sharedPreferences.getString("putlist", "");
@@ -240,6 +276,9 @@ public class PutDetailActivtity extends  BaseActivity {
         if (isSelected == true) {
             Toast.makeText(PutDetailActivtity.this, "时间戳/单号/仓库 不能重复", Toast.LENGTH_LONG).show();
         } else {
+            arrivalHeadBean.setCwhcode(cwhcode);
+            arrivalHeadBean.setCposition(cposition);
+
             arrivalHeadBean.setIquantity(binding.tvNumber.getText().toString());
             arrivalHeadBeans.add(arrivalHeadBean);
             String strings = new Gson().toJson(arrivalHeadBeans);
@@ -255,6 +294,7 @@ public class PutDetailActivtity extends  BaseActivity {
         }
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -264,20 +304,28 @@ public class PutDetailActivtity extends  BaseActivity {
                 if(tag==0 && code.length()>5){
                     Toast.makeText(PutDetailActivtity.this,"类型错误",Toast.LENGTH_LONG).show();
                 }else {
-                    String  numbers=code.replace("$",",");
-                    list = Arrays.asList(numbers.split(","));
-                    Log.i("scan--->","料号"+list.get(0)+",批号"+list.get(1)+
-                            ",数量" +list.get(2)+ ",来源" +list.get(3)+
-                            ",单号" +list.get(4)+ ",行号"+list.get(5)+",时间戳"+list.get(6));
-                    dnumber=list.get(4);
-                    getInventoryBycode(list.get(0));
-                    binding.etTimes.setText("1");
+                    binding.etBatch.setText(code);
+                    Log.i("scan",code);
+                    getData(code);
+
             }
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+    private void getData(String code){
+        String  numbers=code.replace("$",",");
+        list = Arrays.asList(numbers.split(","));
+        Log.i("scan--->","料号"+list.get(0)+",批号"+list.get(1)+
+                ",数量" +list.get(2)+ ",来源" +list.get(3)+
+                ",单号" +list.get(4)+ ",行号"+list.get(5)+",时间戳"+list.get(6));
+        dnumber=list.get(4);
+        getInventoryBycode(list.get(0));
+        binding.etTimes.setText("1");
+    }
+
     private void getInventoryBycode(String cinvcode) {
         JSONObject jsonObject=new JSONObject();
         try {
@@ -289,7 +337,7 @@ public class PutDetailActivtity extends  BaseActivity {
             e.printStackTrace();
         }
         String obj=jsonObject.toString();
-        Log.i("json object",obj);
+        Log.i("getInventoryBycode",obj);
 
         Call<ResponseBody> data =Request.getRequestbody(obj);
         data.enqueue(new Callback<ResponseBody>() {
@@ -304,7 +352,10 @@ public class PutDetailActivtity extends  BaseActivity {
                             arrivalHeadBean=gson.fromJson(data,ArrivalHeadBean.class);
 
                             string1=data.substring(1,data.length()-1)+",";
-                            getArrivalHeadBycode(dnumber);
+                            binding.setBean(arrivalHeadBean);
+                            if(dnumber!=null) {
+                                getArrivalHeadBycode(dnumber);
+                            }
                         }else {
                             Toast.makeText(PutDetailActivtity.this,"未找到数据",Toast.LENGTH_SHORT).show();
                         }

@@ -29,9 +29,9 @@
         android:text="仓库："
         />
     <EditText
-
+        android:singleLine="true"
         style="@style/textview"
-        android:layout_width="match_parent"
+        android:layout_width="280dp"
         android:id="@+id/et_cwhcode"
         android:layout_toRightOf="@id/tv_title1"
  />
@@ -56,9 +56,10 @@
             android:text="料号："
  />
         <EditText
-            android:text="@{bean.cInvCode}"
+            android:singleLine="true"
+
             style="@style/textview"
-            android:layout_width="match_parent"
+            android:layout_width="280dp"
             android:id="@+id/et_batch"
             android:layout_toRightOf="@id/tv_title2"
  />
@@ -182,7 +183,7 @@
         android:layout_alignParentRight="true"
         android:background="@color/blue"
         android:textColor="@android:color/white"
-        android:text="提交"
+        android:text="加入"
         android:layout_width="wrap_content"
         android:layout_height="40dp" />
     <Button
