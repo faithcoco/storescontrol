@@ -49,6 +49,7 @@
                         android:text="货位："
                         />
                     <EditText
+                        android:id="@+id/et_position"
                         android:layout_gravity="center_vertical"
                         style="@style/edittext"
                         android:layout_marginRight="@dimen/layout_margin"
@@ -73,6 +74,7 @@
                         android:text="品名："
                         />
                     <EditText
+                        android:id="@+id/et_inventory"
                         style="@style/edittext"
                         android:layout_gravity="center_vertical"
                         android:layout_toRightOf="@id/tv_title1"
@@ -90,6 +92,7 @@
                         android:text="批号："
                         />
                     <EditText
+                        android:id="@+id/et_batch"
                         android:layout_gravity="center_vertical"
                         style="@style/edittext"
                         android:layout_marginRight="@dimen/layout_margin"
@@ -101,7 +104,7 @@
         </LinearLayout>
         <Button
             android:layout_below="@id/l_input"
-            android:id="@+id/b_submit"
+            android:id="@+id/b_search"
             android:layout_margin="10dp"
             android:layout_alignParentRight="true"
             android:background="@color/black"
@@ -109,6 +112,14 @@
             android:text="查询"
             android:layout_width="wrap_content"
             android:layout_height="40dp" />
+        <LinearLayout
+            android:layout_below="@id/b_search"
+           style="@style/line"></LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_list"
+            android:layout_below="@id/b_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </RelativeLayout>
 

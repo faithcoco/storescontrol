@@ -105,19 +105,22 @@ public class IndexActivity extends BaseActivity {
                    startActivity(intent);
                }
            });
-            Drawable drawableLeft;
-            if(userinfoBean.getData().get(i).getMenuname().equals("采购入库")){
+            Drawable drawableLeft = null;
+            if(userinfoBean.getData().get(i).getMenuname().contains("入库")){
                 drawableLeft = IndexActivity.this.getResources().getDrawable(
-                        R.mipmap.ic_cgrk);
-            }else if(userinfoBean.getData().get(i).getMenuname().equals("调拨入库")){
-                drawableLeft = IndexActivity.this.getResources().getDrawable(
-                        R.mipmap.ic_dbrk);
-            }else if(userinfoBean.getData().get(i).getMenuname().equals("成品入库")){
-                drawableLeft = IndexActivity.this.getResources().getDrawable(
-                        R.mipmap.ic_cprk);
-            }else {
+                        R.mipmap.ic_input);
+            }else if(userinfoBean.getData().get(i).getMenuname().contains("出库")){
                 drawableLeft = IndexActivity.this.getResources().getDrawable(
                         R.mipmap.ic_put);
+            }else if(userinfoBean.getData().get(i).getMenuname().contains("盘点")){
+                drawableLeft = IndexActivity.this.getResources().getDrawable(
+                        R.mipmap.ic_inventory);
+            }else if(userinfoBean.getData().get(i).getMenuname().contains("查询")){
+                drawableLeft = IndexActivity.this.getResources().getDrawable(
+                        R.mipmap.ic_search);
+            }else if(userinfoBean.getData().get(i).getMenuname().contains("调整")){
+                drawableLeft = IndexActivity.this.getResources().getDrawable(
+                        R.mipmap.ic_dbrk);
             }
             vh.funcationButton.setCompoundDrawablesWithIntrinsicBounds(null,
                     drawableLeft, null, null);
