@@ -30,7 +30,12 @@
         <activity android:name=".IndexActivity" />
         <activity android:name=".ScanActivity" />
         <activity android:name=".PutDetailActivtity" />
-        <activity android:name=".PutListActivity"></activity>
+        <activity android:name=".PutListActivity" />
+        <activity android:name=".ProductionwarehousingActivity" />
+        <activity android:name=".ProductionListActivity" />
+        <activity android:name=".TROutDetailsActivity" />
+        <activity android:name=".DetailListActivity" />
+        <activity android:name=".StockcheckActivity"></activity>
     </application>
 
 </manifest>

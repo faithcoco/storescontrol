@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.storescontrol.Url.Request;
 import com.example.storescontrol.bean.LoginBean;
 import com.example.storescontrol.Url.iUrl;
 import com.example.storescontrol.databinding.ActivityLoginBinding;
@@ -28,10 +29,11 @@ import retrofit2.Retrofit;
 public class LoginActivity extends BaseActivity {
     TextView titleTv;
     ActivityLoginBinding activityLoginBinding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      //  setContentView(R.layout.activity_login);
+
 
        activityLoginBinding=DataBindingUtil.setContentView(this,R.layout.activity_login);
 
@@ -87,8 +89,16 @@ public class LoginActivity extends BaseActivity {
 
                 String obj=jsonObject.toString();
                 Log.i("json object",obj);
-                Retrofit retrofit=new Retrofit.Builder().baseUrl("http://123456789.ngrok.yungcloud.cn/").build();
+                SharedPreferences sharedPreferences = getSharedPreferences("sp", Context.MODE_PRIVATE);
+                if(sharedPreferences.getString("port","").equals("")){
+                         Request.URL=Request.BASEURL;
+                }else {
+                      Request.URL=sharedPreferences.getString("port","");
+                }
+                Log.i("url--->",Request.URL);
+                Retrofit retrofit=new Retrofit.Builder().baseUrl(Request.URL).build();
                 RequestBody body=RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),obj);
+
 
                 iUrl login = retrofit.create(iUrl.class);
                 retrofit2.Call<ResponseBody> data = login.getMessage(body);
@@ -114,6 +124,7 @@ public class LoginActivity extends BaseActivity {
 
                                     acccode=resultBean.getAcccode();
                                     usercode=resultBean.getUsercode();
+
 
                                     startActivity(new Intent(LoginActivity.this,IndexActivity.class));
                                     LoginActivity.this.finish();

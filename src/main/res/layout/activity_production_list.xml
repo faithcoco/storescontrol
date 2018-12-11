@@ -5,21 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PutListActivity">
-<include
-    android:id="@+id/l_title"
-    layout="@layout/layout_title"/>
-    <Button
-        android:layout_alignParentBottom="true"
-        android:id="@+id/b_submit"
-        android:layout_margin="10dp"
-        android:layout_alignParentRight="true"
-        android:background="@color/black"
-        android:textColor="@android:color/white"
-        android:text="提交"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp" />
+    <include
+        android:id="@+id/l_title"
+        layout="@layout/layout_title"/>
+
     <android.support.v7.widget.RecyclerView
-       android:layout_margin="@dimen/layout_margin"
+
         android:layout_above="@id/b_submit"
         android:layout_below="@id/l_title"
         android:id="@+id/rv_list"

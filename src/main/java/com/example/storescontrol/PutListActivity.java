@@ -41,7 +41,7 @@ import retrofit2.Retrofit;
 
 public class PutListActivity extends BaseActivity {
     RecyclerView recyclerView;
-    FunctionAdapter functionAdapter;
+    private  FunctionAdapter functionAdapter;
     Button buttonsubmit;
     private ImageView imageViewreturn;
     TextView textViewtitle;

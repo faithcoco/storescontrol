@@ -4,10 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -19,7 +18,7 @@ import android.widget.Toast;
 
 import com.example.storescontrol.Url.Request;
 import com.example.storescontrol.bean.ArrivalHeadBean;
-import com.example.storescontrol.Url.iUrl;
+import com.example.storescontrol.databinding.ActivityProductionwarehousingBinding;
 import com.example.storescontrol.databinding.ActivityPutdetailBinding;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -36,23 +35,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
-public class PutDetailActivtity extends  BaseActivity {
-
-    TextView  titleTv;
+/**
+ * 生产入库
+ */
+public class ProductionwarehousingActivity extends BaseActivity {
+    ActivityProductionwarehousingBinding binding;
+    TextView titleTv;
     ArrivalHeadBean arrivalHeadBean;
+   //单号
     private  String dnumber;
     private ImageView imageViewreturn;
     String string1,string2;
     List<String> list;
     int tag=-1;
-    ActivityPutdetailBinding binding;
+
     Gson gson=new Gson();
     private  String old="1";
     private  String cwhcode,cposition;
@@ -60,7 +61,7 @@ public class PutDetailActivtity extends  BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding=DataBindingUtil.setContentView(this,R.layout.activity_putdetail);
+        binding=DataBindingUtil.setContentView(this,R.layout.activity_productionwarehousing);
 
         titleTv=binding.getRoot().findViewById(R.id.tv_title);
         titleTv.setText(getIntent().getStringExtra("menuname"));
@@ -103,8 +104,8 @@ public class PutDetailActivtity extends  BaseActivity {
                     if (times < 1) {
                         times=1;
                         binding.etTimes.setText(times+"");
-                        Toast.makeText(PutDetailActivtity.this, "此值必须大于1", Toast.LENGTH_LONG).show();
-
+                        Toast.makeText(ProductionwarehousingActivity.this, "此值必须大于1", Toast.LENGTH_LONG).show();
+                        
                     }
                     changeIquantity(times);
                 }
@@ -126,7 +127,7 @@ public class PutDetailActivtity extends  BaseActivity {
                 switch (v.getId()) {
                     case R.id.et_cwhcode:
                         if(binding.etCwhcode.getText().toString().contains("仓库")){
-                            Toast.makeText(PutDetailActivtity.this,"如需重新查询，请清空该项所有字符",Toast.LENGTH_LONG).show();
+                            Toast.makeText(ProductionwarehousingActivity.this,"如需重新查询，请清空该项所有字符",Toast.LENGTH_LONG).show();
                             break;
                         }
                         getCwhcode();
@@ -148,57 +149,56 @@ public class PutDetailActivtity extends  BaseActivity {
         @Override
         public void onClick(View v) {
             int times;
-                 switch (v.getId()){
-                     case R.id.iv_cwhcode:
-                         tag=0;
-                         openScan();
-                         break;
-                     case R.id.iv_add:
-                         times=Integer.parseInt(binding.etTimes.getText().toString());
-                         binding.etTimes.setText(times+1+"");
-                         changeIquantity(times+1);
+            switch (v.getId()){
+                case R.id.iv_cwhcode:
+                    tag=0;
+                    openScan();
+                    break;
+                case R.id.iv_add:
+                    times=Integer.parseInt(binding.etTimes.getText().toString());
+                    binding.etTimes.setText(times+1+"");
+                    changeIquantity(times+1);
 
 
-                         break;
-                     case R.id.iv_minus:
-                         times=Integer.parseInt(binding.etTimes.getText().toString());
-                         if(times>1) {
-                             binding.etTimes.setText(times - 1+"");
-                             changeIquantity(times-1);
-                         }
+                    break;
+                case R.id.iv_minus:
+                    times=Integer.parseInt(binding.etTimes.getText().toString());
+                    if(times>1) {
+                        binding.etTimes.setText(times - 1+"");
+                        changeIquantity(times-1);
+                    }
 
-                         break;
-                     case  R.id.iv_batch:
-                         tag=1;
-                          openScan();
+                    break;
+                case  R.id.iv_batch:
+                    tag=1;
+                    openScan();
 
 
-                         break;
-                     case R.id.b_search:
-                         startActivity(new Intent(PutDetailActivtity.this,PutListActivity.class));
-                         break;
-                     case R.id.b_submit:
-                         if(binding.etTimes.getText().toString().isEmpty()) {
-                             binding.etTimes.setText("1");
-                             Toast.makeText(PutDetailActivtity.this, "数量倍数值必须大于1", Toast.LENGTH_LONG).show();
-                             changeIquantity(1);
-                         }
-                         if(arrivalHeadBean!=null) {
-                             setList();
-                         }
+                    break;
+                case R.id.b_search:
+                    startActivity(new Intent(ProductionwarehousingActivity.this,PutListActivity.class));
+                    break;
+                case R.id.b_submit:
+                    if(binding.etTimes.getText().toString().isEmpty()) {
+                        binding.etTimes.setText("1");
+                        Toast.makeText(ProductionwarehousingActivity.this, "数量倍数值必须大于1", Toast.LENGTH_LONG).show();
+                        changeIquantity(1);
+                    }
+                    if(arrivalHeadBean!=null) {
+                        setList();
+                    }
 
-                         //clear view data
-                         arrivalHeadBean=null;
-                         binding.setBean(arrivalHeadBean);
-                         binding.etBatch.setText("");
-                         binding.tvNumber.setText("");
-                         break;
-                 }
+                    //clear view data
+                    arrivalHeadBean=null;
+                    binding.setBean(arrivalHeadBean);
+                    binding.etBatch.setText("");
+                    binding.tvNumber.setText("");
+                    break;
+            }
         }
 
         private void openScan() {
-            new IntentIntegrator(PutDetailActivtity.this)
-                    // 自定义Activity，重点是这行----------------------------
+            new IntentIntegrator(ProductionwarehousingActivity.this)
                     .setCaptureActivity(ScanActivity.class)
                     .setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)// 扫码的类型,可选：一维码，二维码，一/二维码
                     .setPrompt("请对准二维码")// 设置提示语
@@ -232,14 +232,14 @@ public class PutDetailActivtity extends  BaseActivity {
 
                 try {
                     if(response.code()==200) {
-                       JSONObject object=new JSONObject(response.body().string());
-                       cwhcode=object.getString("cwhcode");
-                       if(!cwhcode.isEmpty()){
-                           cposition=binding.etCwhcode.getText().toString();
-                           binding.etCwhcode.setText(binding.etCwhcode.getText().toString()+"/仓库"+object.getString("cwhcode"));
-                       }else {
-                           Toast.makeText(PutDetailActivtity.this,"仓库为空",Toast.LENGTH_LONG).show();
-                       }
+                        JSONObject object=new JSONObject(response.body().string());
+                        cwhcode=object.getString("cwhcode");
+                        if(!cwhcode.isEmpty()){
+                            cposition=binding.etCwhcode.getText().toString();
+                            binding.etCwhcode.setText(binding.etCwhcode.getText().toString()+"/仓库"+object.getString("cwhcode"));
+                        }else {
+                            Toast.makeText(ProductionwarehousingActivity.this,"仓库为空",Toast.LENGTH_LONG).show();
+                        }
 
                     }
                 } catch (Exception e) {
@@ -283,7 +283,7 @@ public class PutDetailActivtity extends  BaseActivity {
             }
         }
         if (isSelected == true) {
-            Toast.makeText(PutDetailActivtity.this, "时间戳/单号/仓库 不能重复", Toast.LENGTH_LONG).show();
+            Toast.makeText(ProductionwarehousingActivity.this, "时间戳/单号/仓库 不能重复", Toast.LENGTH_LONG).show();
         } else {
             arrivalHeadBean.setCwhcode(cwhcode);
             arrivalHeadBean.setCposition(cposition);
@@ -297,7 +297,8 @@ public class PutDetailActivtity extends  BaseActivity {
 
     private void changeIquantity(int times) {
         if(arrivalHeadBean!=null){
-            int i=Integer.parseInt(old);
+           // int i=Integer.parseInt(old);
+            double i=Double.parseDouble(old);
             binding.tvNumber.setText(times*i+arrivalHeadBean.getCComUnitName());
 
         }
@@ -311,13 +312,13 @@ public class PutDetailActivtity extends  BaseActivity {
             if(result.getContents() != null) {
                 String code=result.getContents();
                 if(tag==0 && code.length()>5){
-                    Toast.makeText(PutDetailActivtity.this,"类型错误",Toast.LENGTH_LONG).show();
+                    Toast.makeText(ProductionwarehousingActivity.this,"类型错误",Toast.LENGTH_LONG).show();
                 }else {
                     binding.etBatch.setText(code);
                     Log.i("scan",code);
                     getData(code);
 
-            }
+                }
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -328,20 +329,23 @@ public class PutDetailActivtity extends  BaseActivity {
         if(code.isEmpty()){
             return;
         }
-
-        String  numbers=code.replace("$",",");
+        String  numbers=code.replace("|",",");
         list = Arrays.asList(numbers.split(","));
-;
-       if(list.size()<4){
-           Toast.makeText(PutDetailActivtity.this,"条码类型错误！",Toast.LENGTH_LONG).show();
-           return;
-       }
-        dnumber=list.get(4);
-        getInventoryBycode(list.get(0));
+        Log.i("list-->",list.size()+"");
+        if(list.size()<4){
+            Toast.makeText(ProductionwarehousingActivity.this,"条码类型错误！",Toast.LENGTH_LONG).show();
+            return;
+        }
+        binding.tvValue1.setText(list.get(5));
+        binding.tvValue2.setText(list.get(6));
+        binding.tvValue3.setText(list.get(9));
+        dnumber=list.get(2);
+        getInventoryBycode(list.get(4));
         binding.etTimes.setText("1");
     }
 
     private void getInventoryBycode(String cinvcode) {
+
         JSONObject jsonObject=new JSONObject();
         try {
 
@@ -362,6 +366,7 @@ public class PutDetailActivtity extends  BaseActivity {
                 try {
                     if(response.code()==200) {
                         JSONArray jsonArray=new JSONArray(response.body().string());
+
                         if(jsonArray.isNull(0)!=true){
                             String data=jsonArray.getJSONObject(0).toString();
                             arrivalHeadBean=gson.fromJson(data,ArrivalHeadBean.class);
@@ -372,7 +377,7 @@ public class PutDetailActivtity extends  BaseActivity {
                                 getArrivalHeadBycode(dnumber);
                             }
                         }else {
-                            Toast.makeText(PutDetailActivtity.this,"未找到数据",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProductionwarehousingActivity.this,"未找到数据",Toast.LENGTH_SHORT).show();
                         }
                     }
                 } catch (Exception e) {
@@ -413,23 +418,28 @@ public class PutDetailActivtity extends  BaseActivity {
                         if(jsonArray.isNull(0)!=true){
 
                             String data=jsonArray.getJSONObject(0).toString();
-                           string2=data.substring(1,data.length()-1);
+                            string2=data.substring(1,data.length()-1);
 
                             String string="{"+string1+string2+"}";
                             arrivalHeadBean=gson.fromJson(string,ArrivalHeadBean.class);
-                            arrivalHeadBean.setMaterial(list.get(0));
+                            //料号
+                            arrivalHeadBean.setMaterial(list.get(4));
+                            //批号
                             arrivalHeadBean.setCbatch(list.get(1));
-                            arrivalHeadBean.setIquantity(list.get(2));
+                            arrivalHeadBean.setIquantity(list.get(7));
                             arrivalHeadBean.setIrowno(list.get(5));
-                            arrivalHeadBean.setStamp(list.get(6));
+                            arrivalHeadBean.setStamp(list.get(9));
                             Log.i("arrivalHeadBean",new Gson().toJson(arrivalHeadBean));
+
                             binding.setBean(arrivalHeadBean);
                             binding.tvNumber.setText(arrivalHeadBean.getIquantity()+arrivalHeadBean.getCComUnitName());
+
+
                             old=arrivalHeadBean.getIquantity();
 
 
                         }else {
-                            Toast.makeText(PutDetailActivtity.this,"未找到数据",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProductionwarehousingActivity.this,"未找到数据",Toast.LENGTH_SHORT).show();
                         }
                     }
                 } catch (Exception e) {
@@ -441,7 +451,4 @@ public class PutDetailActivtity extends  BaseActivity {
 
             } });
     }
-
-
-
 }

@@ -23,7 +23,7 @@ public class IndexActivity extends BaseActivity {
   FunctionAdapter functionAdapter;
 
     TextView titleTv;
-    Button buttonexit;
+
     LoginBean userinfoBean;
     ActivityIndexBinding binding;
     @Override
@@ -82,7 +82,25 @@ public class IndexActivity extends BaseActivity {
            vh.funcationButton.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
-                   Intent intent=new Intent(IndexActivity.this,PutDetailActivtity.class);
+                   Intent intent=new Intent();
+                   switch (i){
+                       case 0:
+                       case 1:
+
+                         intent  =new Intent(IndexActivity.this,ProductionwarehousingActivity.class);
+                           break;
+                       case 2:
+                       case 3:
+                       case 5:
+                           intent  =new Intent(IndexActivity.this,ProductionListActivity.class);
+                           break;
+                       case 8:
+                           intent  =new Intent(IndexActivity.this,StockcheckActivity.class);
+                           break;
+                           default:
+                               intent  =new Intent(IndexActivity.this,PutDetailActivtity.class);
+                               break;
+                   }
                    intent.putExtra("menuname",userinfoBean.getData().get(i).getMenuname());
                    startActivity(intent);
                }
