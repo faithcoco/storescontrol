@@ -41,8 +41,7 @@ public class DetailListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_list);
-
-        Untils.initTitle(getIntent().getStringExtra("menuname"),DetailListActivity.this);
+       Untils.initTitle(getIntent().getStringExtra("menuname"),this);
         recyclerView=findViewById(R.id.rv_list);
         buttonSubmit=findViewById(R.id.b_submit);
         textViewTotal=findViewById(R.id.tv_total);

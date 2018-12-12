@@ -78,6 +78,7 @@ public class LoginActivity extends BaseActivity {
         activityLoginBinding.bLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.show();
                 JSONObject jsonObject=new JSONObject();
                 try {
                     jsonObject.put("methodname","UserLogin");
@@ -107,7 +108,7 @@ public class LoginActivity extends BaseActivity {
                     public void onResponse(retrofit2.Call<ResponseBody> call, Response<ResponseBody> response) {
 
                         try {
-
+                            dialog.dismiss();
                             if(response.code()==200) {
 
                                 LoginBean resultBean=new Gson().fromJson(response.body().string(),LoginBean.class);

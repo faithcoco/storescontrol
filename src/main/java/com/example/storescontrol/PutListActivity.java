@@ -69,8 +69,6 @@ public class PutListActivity extends BaseActivity {
         String data= sharedPreferences.getString("putlist","");
         if (!data.equals("")){
 
-
-
             try {
                 Gson gson = new Gson();
                 JsonArray arry = new JsonParser().parse(data).getAsJsonArray();
@@ -101,7 +99,7 @@ public class PutListActivity extends BaseActivity {
     }
 
     private void putData() {
-
+        dialog.show();
         JSONObject jsonObject=new JSONObject();
         try {
 
@@ -137,7 +135,7 @@ public class PutListActivity extends BaseActivity {
             public void onResponse(retrofit2.Call<ResponseBody> call, Response<ResponseBody> response) {
 
                 try {
-
+                    dialog.dismiss();
                     if(response.code()==200) {
                        JSONObject object=new JSONObject(response.body().string());
                        if(object.getString("Resultcode").equals("200")){

@@ -42,7 +42,7 @@ public class ProductionListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         View v=getLayoutInflater().inflate(R.layout.activity_production_list,null,false);
         setContentView(v);
-        Untils.initTitle(getIntent().getStringExtra("menuname"),ProductionListActivity.this);
+        Untils.initTitle(getIntent().getStringExtra("menuname"),this);
         recyclerView=findViewById(R.id.rv_list);
 
         getData();

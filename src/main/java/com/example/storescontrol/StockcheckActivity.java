@@ -43,7 +43,7 @@ public class StockcheckActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stockcheck);
         binding=DataBindingUtil.setContentView(this,R.layout.activity_stockcheck);
-        Untils.initTitle(getIntent().getStringExtra("menuname"),StockcheckActivity.this);
+        Untils.initTitle(getIntent().getStringExtra("menuname"),this);
         binding.bSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

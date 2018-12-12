@@ -86,7 +86,6 @@ public class IndexActivity extends BaseActivity {
                    switch (i){
                        case 0:
                        case 1:
-
                          intent  =new Intent(IndexActivity.this,ProductionwarehousingActivity.class);
                            break;
                        case 2:
@@ -98,7 +97,7 @@ public class IndexActivity extends BaseActivity {
                            intent  =new Intent(IndexActivity.this,StockcheckActivity.class);
                            break;
                            default:
-                               intent  =new Intent(IndexActivity.this,PutDetailActivtity.class);
+                               intent  =new Intent(IndexActivity.this,ProductionwarehousingActivity.class);
                                break;
                    }
                    intent.putExtra("menuname",userinfoBean.getData().get(i).getMenuname());
