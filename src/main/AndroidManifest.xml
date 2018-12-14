@@ -34,7 +34,10 @@
         <activity android:name=".ProductionwarehousingActivity" />
         <activity android:name=".ProductionListActivity" />
         <activity android:name=".DetailListActivity" />
-        <activity android:name=".StockcheckActivity"></activity>
+        <activity android:name=".StockcheckActivity" />
+        <activity android:name=".DispatchActivity" />
+        <activity android:name=".DispatchdetailsActivity"></activity>
+        <activity android:name=".DispatchdetailslistActivity"></activity>
     </application>
 
 </manifest>

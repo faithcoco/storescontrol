@@ -33,22 +33,15 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
        activityLoginBinding=DataBindingUtil.setContentView(this,R.layout.activity_login);
 
         titleTv=activityLoginBinding.getRoot().findViewById(R.id.tv_title);
         titleTv.setText("掌上管仓");
 
-
         SharedPreferences sharedPreferences = getSharedPreferences("sp", Context.MODE_PRIVATE);
 
-
         activityLoginBinding.cbRemember.setChecked(sharedPreferences.getBoolean("isChecked",true));
-
         activityLoginBinding.etUsername.setText(sharedPreferences.getString("user",""));
-
-
 
         if(activityLoginBinding.cbRemember.isChecked()){
             activityLoginBinding.etPassword.setText(sharedPreferences.getString("password",""));
@@ -66,7 +59,6 @@ public class LoginActivity extends BaseActivity {
 
               }
           });
-
 
             activityLoginBinding.bSet.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -99,8 +91,6 @@ public class LoginActivity extends BaseActivity {
                 Log.i("url--->",Request.URL);
                 Retrofit retrofit=new Retrofit.Builder().baseUrl(Request.URL).build();
                 RequestBody body=RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),obj);
-
-
                 iUrl login = retrofit.create(iUrl.class);
                 retrofit2.Call<ResponseBody> data = login.getMessage(body);
                 data.enqueue(new Callback<ResponseBody>() {
@@ -112,7 +102,6 @@ public class LoginActivity extends BaseActivity {
                             if(response.code()==200) {
 
                                 LoginBean resultBean=new Gson().fromJson(response.body().string(),LoginBean.class);
-
                                 if(resultBean.getResultcode().equals("200")) {
                                     SharedPreferences sharedPreferences = getSharedPreferences("sp", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
@@ -125,7 +114,6 @@ public class LoginActivity extends BaseActivity {
 
                                     acccode=resultBean.getAcccode();
                                     usercode=resultBean.getUsercode();
-
 
                                     startActivity(new Intent(LoginActivity.this,IndexActivity.class));
                                     LoginActivity.this.finish();

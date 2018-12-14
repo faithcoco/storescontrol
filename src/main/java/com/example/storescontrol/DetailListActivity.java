@@ -109,7 +109,7 @@ public class DetailListActivity extends BaseActivity {
             } if(getIntent().getStringExtra("menuname").equals("材料出库")){
                 jsonObject.put("methodname","getMaterialOutDetailsByccode");
             }
-//            jsonObject.put("usercode",usercode);
+              jsonObject.put("usercode",usercode);
               jsonObject.put("id",getIntent().getStringExtra("id"));
               jsonObject.put("acccode",acccode);
 

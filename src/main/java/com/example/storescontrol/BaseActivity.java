@@ -2,6 +2,7 @@ package com.example.storescontrol;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -24,6 +25,7 @@ public class BaseActivity extends AppCompatActivity {
 
 
     }
+
 
 
 

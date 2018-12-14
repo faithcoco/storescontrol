@@ -14,13 +14,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.storescontrol.bean.DispatchBean;
 import com.example.storescontrol.bean.LoginBean;
 import com.example.storescontrol.databinding.ActivityIndexBinding;
 import com.google.gson.Gson;
 
 public class IndexActivity extends BaseActivity {
-  RecyclerView recyclerView;
-  FunctionAdapter functionAdapter;
+    RecyclerView recyclerView;
+    FunctionAdapter functionAdapter;
 
     TextView titleTv;
 
@@ -43,7 +44,7 @@ public class IndexActivity extends BaseActivity {
         binding.tvUsername.setText(userinfoBean.getUsername()+"("+userinfoBean.getAcccode()+")");
 
         titleTv=binding.getRoot().findViewById(R.id.tv_title);
-         titleTv.setText("首页");
+        titleTv.setText("首页");
 
 
 
@@ -51,7 +52,7 @@ public class IndexActivity extends BaseActivity {
         recyclerView=findViewById(R.id.rv_function);
         recyclerView.setLayoutManager(new GridLayoutManager(this,3));
         recyclerView.setAdapter(functionAdapter);
-       binding.bExit.setOnClickListener(new View.OnClickListener() {
+        binding.bExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(IndexActivity.this,LoginActivity.class));
@@ -78,32 +79,37 @@ public class IndexActivity extends BaseActivity {
 
         @Override
         public void onBindViewHolder(@NonNull  FunctionAdapter.VH vh, final int i) {
-           vh.funcationButton.setText(userinfoBean.getData().get(i).getMenuname());
-           vh.funcationButton.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   Intent intent=new Intent();
-                   switch (i){
-                       case 0:
-                       case 1:
-                         intent  =new Intent(IndexActivity.this,ProductionwarehousingActivity.class);
-                           break;
-                       case 2:
-                       case 3:
-                       case 5:
-                           intent  =new Intent(IndexActivity.this,ProductionListActivity.class);
-                           break;
-                       case 8:
-                           intent  =new Intent(IndexActivity.this,StockcheckActivity.class);
-                           break;
-                           default:
-                               intent  =new Intent(IndexActivity.this,ProductionwarehousingActivity.class);
-                               break;
-                   }
-                   intent.putExtra("menuname",userinfoBean.getData().get(i).getMenuname());
-                   startActivity(intent);
-               }
-           });
+            vh.funcationButton.setText(userinfoBean.getData().get(i).getMenuname());
+            vh.funcationButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent();
+                    switch (i){
+                        case 0:
+                        case 1:
+                            intent  =new Intent(IndexActivity.this,ProductionwarehousingActivity.class);
+                            break;
+                        case 2:
+                        case 3:
+
+                        case 5:
+                            intent  =new Intent(IndexActivity.this,ProductionListActivity.class);
+                            break;
+                        case 4://销售出库
+                            intent  =new Intent(IndexActivity.this,DispatchActivity.class);
+                            break;
+                        case 8:
+                            intent  =new Intent(IndexActivity.this,StockcheckActivity.class);
+                            break;
+
+                        default:
+                            intent  =new Intent(IndexActivity.this,ProductionwarehousingActivity.class);
+                            break;
+                    }
+                    intent.putExtra("menuname",userinfoBean.getData().get(i).getMenuname());
+                    startActivity(intent);
+                }
+            });
             Drawable drawableLeft = null;
             if(userinfoBean.getData().get(i).getMenuname().contains("入库")){
                 drawableLeft = IndexActivity.this.getResources().getDrawable(

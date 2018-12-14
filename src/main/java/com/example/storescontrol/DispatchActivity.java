@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.example.storescontrol.Url.Request;
 import com.example.storescontrol.Url.Untils;
 import com.example.storescontrol.bean.ArrivalHeadBean;
+import com.example.storescontrol.bean.DispatchBean;
 import com.example.storescontrol.bean.TROutBywhcodeBean;
 import com.google.gson.Gson;
 
@@ -33,10 +34,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductionListActivity extends BaseActivity {
+/**
+ * 销售出库
+ */
+public class DispatchActivity extends BaseActivity {
     RecyclerView recyclerView;
     private FunctionAdapter functionAdapter;
-    TROutBywhcodeBean trOutBywhcodeBean=new TROutBywhcodeBean();
+    DispatchBean dispatchBean=new DispatchBean();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,15 +55,8 @@ public class ProductionListActivity extends BaseActivity {
 
         JSONObject jsonObject=new JSONObject();
         try {
-            if(getIntent().getStringExtra("menuname").equals("调拨入库")){
-                jsonObject.put("methodname","getTRInBywhcode");
-            }else   if(getIntent().getStringExtra("menuname").equals("调拨出库")){
-                jsonObject.put("methodname","getTROutBywhcode");
-            }else if(getIntent().getStringExtra("menuname").equals("材料出库")){
-                jsonObject.put("methodname","getMaterialOutBywhcode");
-            }else if(getIntent().getStringExtra("menuname").equals("销售出库")){
-                jsonObject.put("methodname","getDispatchBywhcode");
-            }
+
+            jsonObject.put("methodname","getDispatchBywhcode");
             jsonObject.put("usercode",usercode);
             jsonObject.put("cwhcode","");
             jsonObject.put("acccode",acccode);
@@ -79,10 +76,10 @@ public class ProductionListActivity extends BaseActivity {
                 try {
                     if(response.code()==200) {
 
-                        trOutBywhcodeBean=new Gson().fromJson(response.body().string(),TROutBywhcodeBean.class);
-                        functionAdapter=new FunctionAdapter(trOutBywhcodeBean.getData());
-                        recyclerView.setLayoutManager(new LinearLayoutManager(ProductionListActivity.this));
-                        recyclerView.addItemDecoration(new DividerItemDecoration(ProductionListActivity.this,DividerItemDecoration.VERTICAL));
+                        dispatchBean=new Gson().fromJson(response.body().string(),DispatchBean.class);
+                        functionAdapter=new FunctionAdapter(dispatchBean.getData());
+                        recyclerView.setLayoutManager(new LinearLayoutManager(DispatchActivity.this));
+                        recyclerView.addItemDecoration(new DividerItemDecoration(DispatchActivity.this,DividerItemDecoration.VERTICAL));
                         recyclerView.setAdapter(functionAdapter);
 
 
@@ -108,24 +105,25 @@ public class ProductionListActivity extends BaseActivity {
 
         }
 
-        private List<TROutBywhcodeBean.Data> mDatas;
-        public FunctionAdapter(List<TROutBywhcodeBean.Data> data) {
+        private List<DispatchBean.Data> mDatas;
+        public FunctionAdapter(List<DispatchBean.Data> data) {
             this.mDatas = data;
         }
 
         @Override
         public void onBindViewHolder(@NonNull  FunctionAdapter.VH vh,final int i) {
-            vh.textViewcwhname.setText(mDatas.get(i).getCWhName());
-            vh.textViewdate.setText(mDatas.get(i).getdDate());
-            vh.textViewcTRCode.setText(mDatas.get(i).getCTRCode());
+            vh.textViewcwhname.setText(mDatas.get(i).getCwhname());
+            vh.textViewdate.setText(mDatas.get(i).getDdate());
 
+            vh.textViewcTRCode.setText(mDatas.get(i).getCcode());
             vh.linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(ProductionListActivity.this,DetailListActivity.class);
-                     intent.putExtra("id",mDatas.get(i).getID());
-                     intent.putExtra("ccode",mDatas.get(i).getCCode());
-                     intent.putExtra("menuname",getIntent().getStringExtra("menuname"));
+                    Intent intent=new Intent(DispatchActivity.this,DispatchdetailslistActivity.class);
+                    intent.putExtra("id",mDatas.get(i).getID());
+                    intent.putExtra("cwhcode",mDatas.get(i).getCwhcode());
+                    intent.putExtra("ccode",mDatas.get(i).getCcode());
+                    intent.putExtra("menuname",getIntent().getStringExtra("menuname"));
                     startActivity(intent);
                 }
             });
