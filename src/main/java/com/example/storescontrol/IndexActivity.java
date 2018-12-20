@@ -20,33 +20,29 @@ import com.example.storescontrol.databinding.ActivityIndexBinding;
 import com.google.gson.Gson;
 
 public class IndexActivity extends BaseActivity {
+
     RecyclerView recyclerView;
     FunctionAdapter functionAdapter;
-
     TextView titleTv;
-
     LoginBean userinfoBean;
     ActivityIndexBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding=DataBindingUtil.setContentView(this,R.layout.activity_index);
+
         SharedPreferences sharedPreferences = getSharedPreferences("sp", Context.MODE_PRIVATE);
-
         String data=sharedPreferences.getString("userinfo","");
-
         if(!data.equals("")){
             userinfoBean=new Gson().fromJson(data,LoginBean.class);
         }
-        binding.setUser(userinfoBean);
 
+        binding.setUser(userinfoBean);
         binding.tvUsername.setText(userinfoBean.getUsername()+"("+userinfoBean.getAcccode()+")");
 
         titleTv=binding.getRoot().findViewById(R.id.tv_title);
         titleTv.setText("首页");
-
-
 
         functionAdapter=new FunctionAdapter();
         recyclerView=findViewById(R.id.rv_function);
@@ -57,12 +53,8 @@ public class IndexActivity extends BaseActivity {
             public void onClick(View v) {
                 startActivity(new Intent(IndexActivity.this,LoginActivity.class));
                 IndexActivity.this.finish();
-
             }
         });
-
-
-
     }
 
 
@@ -73,8 +65,6 @@ public class IndexActivity extends BaseActivity {
         public FunctionAdapter.VH onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             View v=getLayoutInflater().inflate(R.layout.item_funcation,viewGroup,false);
             return new VH(v);
-
-
         }
 
         @Override
@@ -91,7 +81,6 @@ public class IndexActivity extends BaseActivity {
                             break;
                         case 2:
                         case 3:
-
                         case 5:
                             intent  =new Intent(IndexActivity.this,ProductionListActivity.class);
                             break;
@@ -112,25 +101,18 @@ public class IndexActivity extends BaseActivity {
             });
             Drawable drawableLeft = null;
             if(userinfoBean.getData().get(i).getMenuname().contains("入库")){
-                drawableLeft = IndexActivity.this.getResources().getDrawable(
-                        R.mipmap.ic_input);
+                drawableLeft = IndexActivity.this.getResources().getDrawable(R.mipmap.ic_input);
             }else if(userinfoBean.getData().get(i).getMenuname().contains("出库")){
-                drawableLeft = IndexActivity.this.getResources().getDrawable(
-                        R.mipmap.ic_put);
+                drawableLeft = IndexActivity.this.getResources().getDrawable(R.mipmap.ic_put);
             }else if(userinfoBean.getData().get(i).getMenuname().contains("盘点")){
-                drawableLeft = IndexActivity.this.getResources().getDrawable(
-                        R.mipmap.ic_inventory);
+                drawableLeft = IndexActivity.this.getResources().getDrawable(R.mipmap.ic_inventory);
             }else if(userinfoBean.getData().get(i).getMenuname().contains("查询")){
-                drawableLeft = IndexActivity.this.getResources().getDrawable(
-                        R.mipmap.ic_search);
+                drawableLeft = IndexActivity.this.getResources().getDrawable(R.mipmap.ic_search);
             }else if(userinfoBean.getData().get(i).getMenuname().contains("调整")){
-                drawableLeft = IndexActivity.this.getResources().getDrawable(
-                        R.mipmap.ic_dbrk);
+                drawableLeft = IndexActivity.this.getResources().getDrawable(R.mipmap.ic_dbrk);
             }
             vh.funcationButton.setCompoundDrawablesWithIntrinsicBounds(null,
                     drawableLeft, null, null);
-
-
         }
 
         @Override

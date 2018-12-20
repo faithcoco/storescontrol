@@ -41,7 +41,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * 生产入库
+ * 生产/采购 入库
  */
 public class ProductionwarehousingActivity extends BaseActivity {
     ActivityProductionwarehousingBinding binding;
@@ -105,19 +105,13 @@ public class ProductionwarehousingActivity extends BaseActivity {
                         times=1;
                         binding.etTimes.setText(times+"");
                         Toast.makeText(ProductionwarehousingActivity.this, "此值必须大于1", Toast.LENGTH_LONG).show();
-                        
                     }
                     changeIquantity(times);
                 }
-
-
             }
         });
-
         binding.etCwhcode.setOnKeyListener(onKeyListener);
         binding.etBatch.setOnKeyListener(onKeyListener);
-
-
     }
 
     View.OnKeyListener onKeyListener=new View.OnKeyListener() {
@@ -134,9 +128,7 @@ public class ProductionwarehousingActivity extends BaseActivity {
                         break;
                     case R.id.et_batch:
                         getData(binding.etBatch.getText().toString());
-
                         break;
-
                 }
             }
 
@@ -158,8 +150,6 @@ public class ProductionwarehousingActivity extends BaseActivity {
                     times=Integer.parseInt(binding.etTimes.getText().toString());
                     binding.etTimes.setText(times+1+"");
                     changeIquantity(times+1);
-
-
                     break;
                 case R.id.iv_minus:
                     times=Integer.parseInt(binding.etTimes.getText().toString());
@@ -167,13 +157,10 @@ public class ProductionwarehousingActivity extends BaseActivity {
                         binding.etTimes.setText(times - 1+"");
                         changeIquantity(times-1);
                     }
-
                     break;
                 case  R.id.iv_batch:
                     tag=1;
                     openScan();
-
-
                     break;
                 case R.id.b_search:
                     startActivity(new Intent(ProductionwarehousingActivity.this,PutListActivity.class));
@@ -187,7 +174,6 @@ public class ProductionwarehousingActivity extends BaseActivity {
                     if(arrivalHeadBean!=null) {
                         setList();
                     }
-
                     //clear view data
                     arrivalHeadBean=null;
                     binding.setBean(arrivalHeadBean);
@@ -212,10 +198,8 @@ public class ProductionwarehousingActivity extends BaseActivity {
 
 
     private void getCwhcode() {
-
         JSONObject jsonObject=new JSONObject();
         try {
-
             jsonObject.put("methodname","getWhcodeBypocode");
             jsonObject.put("acccode",acccode);
             jsonObject.put("cposition",binding.etCwhcode.getText().toString());
@@ -240,7 +224,6 @@ public class ProductionwarehousingActivity extends BaseActivity {
                         }else {
                             Toast.makeText(ProductionwarehousingActivity.this,"仓库为空",Toast.LENGTH_LONG).show();
                         }
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -256,9 +239,6 @@ public class ProductionwarehousingActivity extends BaseActivity {
      * 制造入库列表
      */
     private void setList() {
-
-
-
         ArrayList<ArrivalHeadBean> arrivalHeadBeans = new ArrayList<>();
         SharedPreferences sharedPreferences = getSharedPreferences("sp", Context.MODE_PRIVATE);
         String data = sharedPreferences.getString("putlist", "");
@@ -348,7 +328,6 @@ public class ProductionwarehousingActivity extends BaseActivity {
 
         JSONObject jsonObject=new JSONObject();
         try {
-
             jsonObject.put("methodname","getInventoryBycode");
             jsonObject.put("acccode",acccode);
             jsonObject.put("cinvcode",cinvcode);
@@ -366,7 +345,6 @@ public class ProductionwarehousingActivity extends BaseActivity {
                 try {
                     if(response.code()==200) {
                         JSONArray jsonArray=new JSONArray(response.body().string());
-
                         if(jsonArray.isNull(0)!=true){
                             String data=jsonArray.getJSONObject(0).toString();
                             arrivalHeadBean=gson.fromJson(data,ArrivalHeadBean.class);
@@ -411,8 +389,6 @@ public class ProductionwarehousingActivity extends BaseActivity {
             public void onResponse(retrofit2.Call<ResponseBody> call, Response<ResponseBody> response) {
 
                 try {
-
-
                     if(response.code()==200) {
                         JSONArray jsonArray=new JSONArray(response.body().string());
                         if(jsonArray.isNull(0)!=true){
@@ -434,9 +410,7 @@ public class ProductionwarehousingActivity extends BaseActivity {
                             binding.setBean(arrivalHeadBean);
                             binding.tvNumber.setText(arrivalHeadBean.getIquantity()+arrivalHeadBean.getCComUnitName());
 
-
                             old=arrivalHeadBean.getIquantity();
-
 
                         }else {
                             Toast.makeText(ProductionwarehousingActivity.this,"未找到数据",Toast.LENGTH_SHORT).show();

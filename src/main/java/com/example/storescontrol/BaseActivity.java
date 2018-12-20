@@ -12,12 +12,14 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+
 public class BaseActivity extends AppCompatActivity {
     public static   String acccode,usercode;
     public  AlertDialog dialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         AlertDialog.Builder builder=new AlertDialog.Builder(this).setView(R.layout.layout_progress);

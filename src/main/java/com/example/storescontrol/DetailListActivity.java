@@ -69,8 +69,6 @@ public class DetailListActivity extends BaseActivity {
             jsonObject.put("id",getIntent().getStringExtra("id"));
             jsonObject.put("acccode",acccode);
             jsonObject.put("ccode",getIntent().getStringExtra("ccode"));
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -85,8 +83,6 @@ public class DetailListActivity extends BaseActivity {
                 try {
                     if(response.code()==200) {
                         Toast.makeText(DetailListActivity.this,response.body().string(),Toast.LENGTH_LONG).show();
-
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -112,8 +108,6 @@ public class DetailListActivity extends BaseActivity {
               jsonObject.put("usercode",usercode);
               jsonObject.put("id",getIntent().getStringExtra("id"));
               jsonObject.put("acccode",acccode);
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -133,8 +127,6 @@ public class DetailListActivity extends BaseActivity {
                         recyclerView.addItemDecoration(new DividerItemDecoration(DetailListActivity.this,DividerItemDecoration.VERTICAL));
                         recyclerView.setAdapter(functionAdapter);
                         textViewTotal.setText("总计："+detailsBean.getData().size()+"条");
-
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -152,8 +144,6 @@ public class DetailListActivity extends BaseActivity {
         public FunctionAdapter.VH onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             View v=getLayoutInflater().inflate(R.layout.item_detail_list,viewGroup,false);
             return new FunctionAdapter.VH(v);
-
-
         }
 
         private List<DetailsBean.Data> mDatas;
@@ -189,8 +179,6 @@ public class DetailListActivity extends BaseActivity {
                textViewcposition=itemView.findViewById(R.id.tv_cposition);
                textViewDetails=itemView.findViewById(R.id.tv_details);
                textViewiQuantity=itemView.findViewById(R.id.tv_iQuantity);
-
-
             }
         }
     }

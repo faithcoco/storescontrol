@@ -139,8 +139,6 @@ public class DispatchdetailslistActivity extends BaseActivity {
             jsonObject.put("id",getIntent().getStringExtra("id"));
             jsonObject.put("acccode",acccode);
             jsonObject.put("cwhcode",getIntent().getStringExtra("cwhcode"));
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -160,8 +158,6 @@ public class DispatchdetailslistActivity extends BaseActivity {
                         recyclerView.addItemDecoration(new DividerItemDecoration(DispatchdetailslistActivity.this,DividerItemDecoration.VERTICAL));
                         recyclerView.setAdapter(functionAdapter);
                        // textViewTotal.setText("总计："+dispatchdetailsBean.getData().size()+"条");
-
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
